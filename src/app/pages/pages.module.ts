@@ -5,6 +5,7 @@ import { ProgressComponent } from './progress/progress.component';
 import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 
@@ -12,12 +13,14 @@ import { AppRoutingModule } from '../app-routing.module';
   declarations: [
     DashboardComponent,
     ProgressComponent,
-    PagesComponent
+    PagesComponent,
+    AccountSettingsComponent
   ],
   exports: [
     DashboardComponent,
     ProgressComponent,
-    PagesComponent
+    PagesComponent,
+    AccountSettingsComponent
   ],
   imports: [
     CommonModule,
