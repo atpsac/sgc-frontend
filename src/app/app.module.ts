@@ -7,6 +7,7 @@ import { NotpagefoundComponent } from './notpagefound/notpagefound.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PagesModule } from './pages/pages.module';
 import { AuthModule } from './auth/auth.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -15,10 +16,11 @@ import { AuthModule } from './auth/auth.module';
     NotpagefoundComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
+    HttpClientModule,
     PagesModule,
-    AuthModule
+    AuthModule    
   ],
   bootstrap: [AppComponent]
 })

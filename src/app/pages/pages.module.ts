@@ -23,9 +23,9 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     AccountSettingsComponent
   ],
   imports: [
+    AppRoutingModule,
     CommonModule,
-    SharedModule,
-    AppRoutingModule
+    SharedModule
   ]
 })
 export class PagesModule { }
