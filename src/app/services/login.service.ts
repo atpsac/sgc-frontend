@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { LoginForm } from '../interfaces/login-form.interface';
 import { environment } from 'src/environments/environment.development';
-import { tap } from 'rxjs';
+import { Observable, catchError, tap, of } from 'rxjs';
 
 const base_url: string = environment.base_url;
 
@@ -13,15 +13,23 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  login(formData: LoginForm) {
-    delete formData.remember;
-    return this.http.post(`${base_url}/auth/login`, formData)
-    .pipe(
-      tap((resp: any) => {
-        localStorage.setItem('token', resp.token);
-      }  
-      )
-    );
+  refreshToken() {
+    const token = localStorage.getItem('token');
   }
 
+  login(formData: LoginForm): Observable<boolean> {
+    delete formData.remember;
+    return this.http.post(`${base_url}/auth/login`, formData)
+      .pipe(
+        tap((resp: any) => {
+          const { accessToken } = resp.tokens;
+          localStorage.setItem('token', accessToken);
+        }
+        ),
+        catchError((error) => {
+          alert(error.error);
+          return of(false);
+        })
+      );
+  }
 }

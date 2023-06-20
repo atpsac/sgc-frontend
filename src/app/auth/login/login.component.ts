@@ -14,7 +14,7 @@ export class LoginComponent {
   public formSubmitted = false;
 
   public loginForm = this.formBuilder.group({
-    username: ['', Validators.required],
+    username: [localStorage.getItem('username') || '', Validators.required],
     password: ['', Validators.required],
     remember: [false]
   });
@@ -23,23 +23,34 @@ export class LoginComponent {
     private router: Router,
     private formBuilder: NonNullableFormBuilder,
     private loginService: LoginService
-    ) {
+  ) {
 
   }
 
   login() {
     this.loginService.login(this.loginForm.value)
-    .subscribe({
-      next: (resp) => {
-        if (this.loginForm.get('remember')?.value) {
+      .subscribe({
+        next: (resp) => {
+          if (this.loginForm.get('remember')?.value) {
+            localStorage.setItem('username', this.loginForm.get('username')!.value);
+          }
+          else {
+            localStorage.removeItem('username');
+          }
 
+          this.router.navigateByUrl('/');
+
+        },
+        error: (error) => {
+          const { message: errorMessage } = error.error;
+          console.log(errorMessage);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMessage
+          })
         }
-      },
-      error: (error) => {
-        const {message: errorMessage} = error.error;
-        Swal.fire('Error', errorMessage, 'error')
-      }
-    })
+      })
     //this.router.navigateByUrl('/');
   }
 
